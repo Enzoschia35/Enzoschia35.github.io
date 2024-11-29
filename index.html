@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorpresa</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f9f9f9;
+            color: #333;
+            padding: 20px;
+        }
+        #countdown {
+            font-size: 2rem;
+            margin-top: 20px;
+        }
+        #content {
+            display: none;
+            margin-top: 20px;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>La tua sorpresa sarà disponibile tra:</h1>
+    <div id="countdown"></div>
+    <div id="content">
+        <h2>Buon Compleanno!</h2>
+        <p>Ecco la tua sorpresa: <strong>Un messaggio speciale per te!</strong></p>
+        <!-- Puoi aggiungere immagini, video o altri contenuti qui -->
+    </div>
+
+    <script>
+        // Imposta la data di sblocco (23 dicembre alle 00:00)
+        const unlockDate = new Date("December 23, 2024 00:00:00").getTime();
+
+        // Aggiorna il countdown ogni secondo
+        const countdownInterval = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = unlockDate - now;
+
+            // Calcola giorni, ore, minuti e secondi
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Mostra il countdown
+            document.getElementById("countdown").innerHTML = `${days} giorni, ${hours} ore, ${minutes} minuti, ${seconds} secondi`;
+
+            // Quando il countdown arriva a zero, mostra il contenuto
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.getElementById("countdown").style.display = "none";
+                document.getElementById("content").style.display = "block";
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
