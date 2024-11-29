@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sorpresa</title>
+    <title>Sorpresa con Playlist</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -15,63 +15,90 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            flex-direction: column;
         }
-        .container {
-            text-align: center;
+
+        .container, .container2 {
+            text-align: auto;
             padding: 40px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+            min-height: 200px;
+            margin-bottom: 20px;
         }
+
+        .container2 {
+            font-size: 1.2rem;
+            color: #ffffff;
+        }
+
         #countdown {
             font-size: 2.5rem;
             font-weight: 700;
             color: #ffd700;
             margin: 20px 0;
         }
+
         #content {
             display: none;
         }
-        h1, h2 {
-            font-family: 'Arial', sans-serif;
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 500;
         }
-        h2 {
-            color: #ff7f50;
-        }
-        button {
-            margin-top: 20px;
-            background-color: #ff7f50;
-            border: none;
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            transition: background-color 0.3s ease;
-        }
-        button:hover {
-            background-color: #ff6347;
+
+        /* Responsiveness: smaller text on smaller screens */
+        @media (max-width: 576px) {
+            .container, .container2 {
+                padding: 20px;
+                font-size: 1rem;
+            }
+
+            #countdown {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Playlist di sottofondo -->
+    <audio autoplay loop>
+        <source src="audio1.mp3" type="audio/mp3">
+
+        Il tuo browser non supporta il formato audio.
+    </audio>
+
+    <div class="container2" id="message">
+        <h1>CARA SARA<br>
+            Se sei qui, probabilmente ci sono due motivi:
+            <br><br>
+            <strong>1]</strong> Hai infranto le regole nel tentativo di scoprire la destinazione segreta.<br><br>
+            <strong>2]</strong> Sei stata brava e sei qui sotto mia autorizzazione. Probabilmente sarò seduto vicino a te, ma non è ancora mezzanotte... quindi dovrai aspettare ancora pochi minuti.
+            <br><br>
+            Ora che le premesse sono fatte, segui le indicazioni che appariranno allo scadere del timer... 
+            <br><br>
+            Nell'attesa che il timer finisca, prova a indovinare dove ti sto portando! Forse non indovinerai... ma non preoccuparti, tutto verrà svelato a tempo debito!
+        </h1>
+    </div>
+
     <div class="container">
         <h1 class="mb-4">La tua sorpresa sarà disponibile tra:</h1>
         <div id="countdown">Caricamento...</div>
         <div id="content">
-            <h2>Inserisci il codice per sbloccare la sorpresa!</h2>
-            <button onclick="askForCode()">Sblocca la sorpresa</button>
-        </div>
-        <div id="gift" class="mt-4" style="display: none;">
-            <h2>Buon Compleanno! 🎉</h2>
-            <p>Ecco il tuo regalo: <strong>Un messaggio speciale per te!</strong></p>
+            <h2>Clicca il bottone per scoprire la destinazione!</h2>
+            <button class="btn btn-primary" onclick="askForCode()">Scopri Destinazione</button>
         </div>
     </div>
 
-    <!-- Bootstrap JS (opzionale, per interattività futura) -->
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Imposta la data di sblocco (23 dicembre alle 00:00)
-        const unlockDate = new Date("November 29, 2024 12:12:00").getTime();
+        // Imposta la data di sblocco (29 novembre 2024 alle 13:59)
+        const unlockDate = new Date("November 29, 2024 13:20:00").getTime();
         const secretCode = "12345"; // Codice segreto che conosci solo tu
 
         // Aggiorna il countdown ogni secondo
@@ -88,11 +115,12 @@
             // Mostra il countdown
             document.getElementById("countdown").innerHTML = `${days} giorni, ${hours} ore, ${minutes} minuti, ${seconds} secondi`;
 
-            // Quando il countdown arriva a zero, mostra il contenuto
+            // Quando il countdown arriva a zero, nascondi il primo container e mostra il contenuto
             if (distance < 0) {
                 clearInterval(countdownInterval);
-                document.getElementById("countdown").style.display = "none";
-                document.getElementById("content").style.display = "block";
+                document.getElementById("message").style.display = "none"; // Nasconde il primo container
+                document.getElementById("countdown").style.display = "none"; // Nasconde il countdown
+                document.getElementById("content").style.display = "block"; // Mostra il bottone
             }
         }, 1000);
 
@@ -100,8 +128,7 @@
         function askForCode() {
             const userCode = prompt("Inserisci il codice segreto:");
             if (userCode === secretCode) {
-                document.getElementById("content").style.display = "none";
-                document.getElementById("gift").style.display = "block";
+                window.location.href = "svelare.html"; // Reindirizza alla pagina successiva
             } else {
                 alert("Codice errato! Prova di nuovo.");
             }
