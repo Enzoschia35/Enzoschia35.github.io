@@ -71,14 +71,6 @@
         Il tuo browser non supporta il formato audio.
     </audio>
 
-    <!-- Controlli Musica -->
-    <div class="audio-controls container container2" style="align-items: center;">
-        <button class="btn btn-primary" onclick="document.getElementById('background-music').play()">Avvia Musica</button>
-        <button class="btn btn-primary"onclick="document.getElementById('background-music').pause()">Ferma Musica</button>
-        <button class="btn btn-primary"onclick="nextSong()">Prossima Canzone</button>
-        <input type="range" id="volume-control" min="0" max="1" step="0.1" value="1" onchange="adjustVolume(this.value)" /> Volume
-    </div>
-
     <div class="container2" id="message">
         <h1>CARA SARA<br>
             Se sei qui, probabilmente ci sono due motivi:
@@ -88,8 +80,16 @@
             <br><br>
             Ora che le premesse sono fatte, segui le indicazioni che appariranno allo scadere del timer... 
             <br><br>
-            Nell'attesa che il timer finisca, prova a indovinare dove ti sto portando! Forse non indovinerai... ma non preoccuparti, tutto verrà svelato a tempo debito!
+            Nell'attesa che il timer finisca, GODITI UN PO' DELLA TUA MUSICA PREFERITAAAA
         </h1>
+    </div>
+
+    <!-- Controlli Musica -->
+    <div class="audio-controls container container2" style="align-items: center;">
+        <button class="btn btn-primary" onclick="document.getElementById('background-music').play()">Avvia Musica</button>
+        <button class="btn btn-primary"onclick="document.getElementById('background-music').pause()">Ferma Musica</button>
+        <button class="btn btn-primary"onclick="nextSong()">Prossima Canzone</button>
+        <input type="range" id="volume-control" min="0" max="1" step="0.1" value="1" onchange="adjustVolume(this.value)" /> Volume
     </div>
 
     <div class="container">
