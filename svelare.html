@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sorpresa di Compleanno</title>
-    <!-- Aggiungiamo il CDN di Bootstrap per uno stile migliore -->
+    <!-- Bootstrap e animazioni -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Aggiungiamo animazioni -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(to bottom, #6a11cb, #2575fc); /* Sfondo sfumato colorato */
+            background: linear-gradient(to bottom, #6a11cb, #2575fc);
             color: #fff;
             font-family: 'Arial', sans-serif;
             display: flex;
@@ -22,32 +21,51 @@
         }
         .container {
             text-align: center;
-            padding: 30px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            background: rgba(28, 27, 27, 0.156);
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             position: relative;
-            z-index: 2; /* Posizioniamo il contenuto sopra al video */
+            z-index: 2;
+            width: 90%;
+            max-width: 500px;
         }
-        h1, h2 {
-            font-family: 'Arial', sans-serif;
+        h1, h2, #destination {
             text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
         }
         h1 {
-            font-size: 4rem;
+            font-size: 2.5rem;
             margin-bottom: 20px;
         }
         h2 {
-            font-size: 2.5rem;
-            color: #FFD700; /* Colore oro */
-            animation: fadeIn 3s ease-in-out;
+            font-size: 1.8rem;
+            color: #FFD700;
         }
         #destination {
-            font-size: 3rem;
+            font-size: 2rem;
             font-weight: bold;
-            color: #00FFCC; /* Verde acqua brillante */
-            animation: bounceIn 2s ease-out;
-            margin-top: 20px;
+            color: #00FFCC;
+            margin-top: 15px;
+        }
+        @media (max-width: 576px) {
+            h1 {
+                font-size: 2rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            #destination {
+                font-size: 1.5rem;
+            }
+        }
+        #background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: -1;
         }
         #confetti-container {
             position: absolute;
@@ -62,56 +80,29 @@
             width: 10px;
             height: 10px;
             background-color: #FFD700;
-            opacity: 0.7;
+            opacity: 0.8;
             animation: fall 3s infinite linear;
             border-radius: 50%;
         }
         @keyframes fall {
-            0% {
-                transform: translateY(-100px) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(100vh) rotate(720deg);
-                opacity: 0;
-            }
-        }
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-        @keyframes bounceIn {
-            0% { transform: scale(0); opacity: 0; }
-            60% { transform: scale(1.2); opacity: 1; }
-            100% { transform: scale(1); }
-        }
-        audio {
-            display: none; /* Nascondi l'elemento audio, ma lascialo riprodurre */
-        }
-        /* Video come sfondo */
-        #background-video {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            object-fit: cover; /* Assicura che il video copra tutto lo schermo */
-            z-index: -1; /* Posiziona il video dietro al contenuto */
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
         }
     </style>
 </head>
 <body>
-    <!-- Video di Budapest come sfondo -->
+    <!-- Video di sfondo -->
     <video id="background-video" autoplay muted loop>
-        <source src="https://www.youtube.com/watch?v=B_Hfmp-z7AE&pp=ygULYnVkYXBlc3QgNGs%3D" type="video/mp4">
+        <source src="video-iniziale.mp4" type="video/mp4">
         Il tuo browser non supporta il video.
     </video>
 
+    <!-- Contenuto principale -->
     <div class="container animate__animated animate__fadeIn">
-        <h1 class="animate__animated animate__fadeIn">🎉 Buon Compleanno Amore Mio!🎉</h1>
+        <h1 class="animate__animated animate__fadeIn">🎉 Buon Compleanno Amore Mio! 🎉</h1>
         <h2 class="animate__animated animate__fadeIn">Stai per partire per un viaggio incredibile...</h2>
         <div id="destination" class="animate__animated animate__bounceIn">
-            Destinazione: <span class="animate__animated animate__fadeIn animate__delay-2s">Budapest 🏰</span>
+            Destinazione: <span id="city-name" class="animate__animated animate__fadeIn animate__delay-2s">Budapest 🏰</span>
         </div>
         <audio id="birthdaySong" autoplay>
             <source src="https://www.soundjay.com/misc/sounds/birthday-song-1.mp3" type="audio/mp3">
@@ -123,21 +114,27 @@
     <div id="confetti-container"></div>
 
     <script>
-        // Funzione per aggiungere coriandoli dinamicamente
+        // Funzione per creare coriandoli
         function createConfetti() {
             const confettiContainer = document.getElementById('confetti-container');
             for (let i = 0; i < 100; i++) {
                 const confetti = document.createElement('div');
                 confetti.classList.add('confetti');
                 confetti.style.left = `${Math.random() * 100}vw`;
-                confetti.style.animationDelay = `${Math.random() * 2}s`;  // Ritardo casuale per un effetto più dinamico
-                confetti.style.animationDuration = `${Math.random() * 2 + 3}s`; // Durata casuale
+                confetti.style.animationDelay = `${Math.random() * 2}s`;
+                confetti.style.animationDuration = `${Math.random() * 2 + 3}s`;
                 confettiContainer.appendChild(confetti);
             }
         }
-        
-        // Inizializza i coriandoli
         createConfetti();
+
+        // Cambia il video di sfondo dopo che la destinazione è mostrata
+        document.getElementById('city-name').addEventListener('animationend', () => {
+            const videoElement = document.getElementById('background-video');
+            videoElement.src = "video-finale.mp4"; // Sostituisci con il percorso del nuovo video
+            videoElement.load();
+            videoElement.play();
+        });
     </script>
 </body>
 </html>
